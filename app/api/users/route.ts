@@ -1,4 +1,4 @@
-import { db } from "../../../db/index";
+import { db, pool } from "../../../db/index";
 import { users } from "../../../db/schema";
 
 export async function POST(req: Request) {
@@ -13,7 +13,11 @@ export async function POST(req: Request) {
       });
     }
 
-    await db.insert(users).values({ name, email });
+    // Use a direct parametrized query to avoid sending `DEFAULT` for `id`.
+    await pool.query("INSERT INTO `users` (`name`, `email`) VALUES (?, ?)", [
+      name,
+      email,
+    ]);
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 201,
