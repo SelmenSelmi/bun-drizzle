@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1772555225983,
+      "tag": "0000_known_riptide",
+      "breakpoints": true
+    }
+  ]
+}
