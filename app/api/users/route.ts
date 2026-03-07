@@ -1,23 +1,37 @@
 import { db, pool } from "../../../db/index";
 import { users } from "../../../db/schema";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email } = body;
+    const { name, email, password } = body;
 
-    if (!name || !email) {
-      return new Response(JSON.stringify({ error: "name and email required" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!name || !email || !password) {
+      return new Response(
+        JSON.stringify({ error: "name, email and password required" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
+    if (typeof password !== "string" || password.length < 8) {
+      return new Response(
+        JSON.stringify({ error: "password must be at least 8 characters" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Hash password before storing
+    const hashed = await bcrypt.hash(password, 10);
+
     // Use a direct parametrized query to avoid sending `DEFAULT` for `id`.
-    await pool.query("INSERT INTO `users` (`name`, `email`) VALUES (?, ?)", [
-      name,
-      email,
-    ]);
+    await pool.query(
+      "INSERT INTO `users` (`name`, `email`, `password`) VALUES (?, ?, ?)",
+      [name, email, hashed]
+    );
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 201,

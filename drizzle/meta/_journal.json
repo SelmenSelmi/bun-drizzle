@@ -15,6 +15,13 @@
       "when": 1772555750257,
       "tag": "0001_spooky_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1772896526804,
+      "tag": "0002_peaceful_jack_flag",
+      "breakpoints": true
     }
   ]
 }
