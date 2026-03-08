@@ -13,9 +13,10 @@ export async function POST(req: Request) {
       });
     }
 
-    const [rows] = await pool.query("SELECT `id`, `password`, `name` FROM `users` WHERE `email` = ?", [
-      email,
-    ]);
+    const [rows] = await pool.query(
+      "SELECT `id`, `password`, `name`, `role` FROM `users` WHERE `email` = ?",
+      [email]
+    );
 
     // rows may be an array-like from mysql2
     const user = Array.isArray(rows) && rows.length > 0 ? (rows as any)[0] : null;
@@ -35,8 +36,11 @@ export async function POST(req: Request) {
       });
     }
 
-    // Authentication successful — return basic user info. In a real app set a secure cookie or issue a JWT.
-    return new Response(JSON.stringify({ ok: true, user: { id: user.id, name: user.name, email } }), {
+    // Authentication successful — return basic user info, including role.
+    // In a real app set a secure cookie or issue a JWT instead of returning user data directly.
+    return new Response(
+      JSON.stringify({ ok: true, user: { id: user.id, name: user.name, email, role: user.role } }),
+      {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 export default function DashboardPage() {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     try {
       const stored = localStorage.getItem("userName") || "";
+      const storedRole = localStorage.getItem("userRole") || "";
       setName(stored);
+      setRole(storedRole);
     } catch (e) {
       setName("");
     }
@@ -19,6 +22,7 @@ export default function DashboardPage() {
   function handleLogout() {
     try {
       localStorage.removeItem("userName");
+      localStorage.removeItem("userRole");
     } catch (e) {
       // ignore
     }
@@ -29,7 +33,9 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
       <div className="w-full max-w-2xl text-center">
-        <h1 className="text-3xl font-bold">Welcome{ name ? `: ${name}` : "" }</h1>
+        <h1 className="text-3xl font-bold">
+          Welcome{ name ? `: ${name}` : "" }{role ? ` · ${role}` : ""}
+        </h1>
 
 
         <QuestionBox onLogout={handleLogout} />

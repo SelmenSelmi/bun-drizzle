@@ -32,9 +32,11 @@ export default function LoginPage() {
       setStatus("success");
       setMessage("Logged in");
       const name = data?.user?.name ?? "";
+      const role = data?.user?.role ?? "user";
       // Store the user's name locally (not secure for sensitive data)
       try {
         localStorage.setItem("userName", name);
+        localStorage.setItem("userRole", role);
       } catch (e) {
         // ignore
       }

@@ -5,6 +5,7 @@ export const users = mysqlTable("users", {
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }),
+  role: varchar("role", { length: 50 }).notNull(),
 });
 
 export const questions = mysqlTable("questions", {

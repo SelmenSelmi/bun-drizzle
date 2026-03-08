@@ -1,7 +1,7 @@
-CREATE TABLE `users` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`name` varchar(255),
-	`email` text NOT NULL,
-	CONSTRAINT `users_id` PRIMARY KEY(`id`),
-	CONSTRAINT `users_email_unique` UNIQUE(`email`)
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

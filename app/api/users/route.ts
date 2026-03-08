@@ -28,9 +28,11 @@ export async function POST(req: Request) {
     const hashed = await bcrypt.hash(password, 10);
 
     // Use a direct parametrized query to avoid sending `DEFAULT` for `id`.
+    // Always create new signups as regular users. Admin assignment must be
+    // performed separately (DB update or an admin-only endpoint).
     await pool.query(
-      "INSERT INTO `users` (`name`, `email`, `password`) VALUES (?, ?, ?)",
-      [name, email, hashed]
+      "INSERT INTO `users` (`name`, `email`, `password`, `role`) VALUES (?, ?, ?, ?)",
+      [name, email, hashed, "user"]
     );
 
     return new Response(JSON.stringify({ ok: true }), {
