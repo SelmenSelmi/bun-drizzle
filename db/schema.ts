@@ -12,4 +12,10 @@ export const questions = mysqlTable("questions", {
   id: int("id").primaryKey().autoincrement(),
   author_name: varchar("author_name", { length: 255 }),
   content: varchar("content", { length: 2000 }).notNull(),
+  topic_id: int("topic_id").notNull(),
+});
+
+export const topics = mysqlTable("topics", {
+  id: int("id").primaryKey().autoincrement(),
+  name: varchar("name", { length: 255 }).notNull(),
 });
